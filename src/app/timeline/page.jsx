@@ -1,10 +1,10 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Sparkles, Users, DollarSign, Clock, Briefcase, CheckCircle2, Play, Calendar, Target, Zap, ArrowLeft, Code, Rocket } from 'lucide-react';
+import { Sparkles, Users, Banknote , Clock, Briefcase, CheckCircle2, Play, Calendar, Target, Zap, ArrowLeft, Code, Rocket } from 'lucide-react';
 
 const TimelineItem = ({ phase, index, isVisible, isLast, isActive }) => {
-  const icons = [Sparkles, Users, DollarSign, Clock, Briefcase, CheckCircle2];
+  const icons = [Sparkles, Users, Banknote , Clock, Briefcase, CheckCircle2];
   const Icon = icons[index];
   
   const colors = [
