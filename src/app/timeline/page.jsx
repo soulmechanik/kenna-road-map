@@ -1,5 +1,7 @@
+'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import { Sparkles, Users, DollarSign, Clock, Briefcase, CheckCircle2, Play, Calendar, Target, Zap } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Sparkles, Users, DollarSign, Clock, Briefcase, CheckCircle2, Play, Calendar, Target, Zap, ArrowLeft, Code, Rocket } from 'lucide-react';
 
 const TimelineItem = ({ phase, index, isVisible, isLast, isActive }) => {
   const icons = [Sparkles, Users, DollarSign, Clock, Briefcase, CheckCircle2];
@@ -24,7 +26,6 @@ const TimelineItem = ({ phase, index, isVisible, isLast, isActive }) => {
       style={{ transitionDelay: `${index * 80}ms` }}
     >
       <div className="flex gap-4 md:gap-6 pb-8 md:pb-12">
-        {/* Left side - Icon and connector */}
         <div className="flex flex-col items-center flex-shrink-0">
           <div className={`relative w-12 h-12 md:w-14 md:h-14 rounded-xl ${color.icon} flex items-center justify-center shadow-sm transition-all duration-300 ${
             isActive ? `ring-4 ${color.ring} ring-opacity-20 scale-110` : ''
@@ -41,7 +42,6 @@ const TimelineItem = ({ phase, index, isVisible, isLast, isActive }) => {
           )}
         </div>
 
-        {/* Right side - Content */}
         <div className="flex-1 pb-4">
           <div className={`${isActive ? color.bg : 'bg-gray-50'} rounded-xl p-5 md:p-6 border ${
             isActive ? color.border : 'border-gray-200'
@@ -78,19 +78,23 @@ const TimelineItem = ({ phase, index, isVisible, isLast, isActive }) => {
   );
 };
 
-const FloatingShape = ({ delay, duration, size, left, top, color }) => (
+const FloatingObject = ({ delay, duration, size, left, top, Icon, color, rotate }) => (
   <div
-    className={`absolute ${size} ${color} rounded-full opacity-5 blur-xl`}
+    className={`absolute ${size} ${color} rounded-2xl opacity-[0.08] flex items-center justify-center`}
     style={{
       left,
       top,
       animation: `float ${duration}s ease-in-out infinite`,
       animationDelay: `${delay}s`,
+      transform: `rotate(${rotate}deg)`
     }}
-  ></div>
+  >
+    <Icon className="w-full h-full p-4" strokeWidth={1} />
+  </div>
 );
 
-export default function KennaTimeline() {
+export default function Timeline() {
+  const router = useRouter();
   const [visibleItems, setVisibleItems] = useState([]);
   const [activePhase, setActivePhase] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -181,31 +185,36 @@ export default function KennaTimeline() {
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
-      {/* Subtle tiny grid background */}
+      {/* Dot grid background */}
       <div 
-        className="absolute inset-0 opacity-[0.02]"
+        className="absolute inset-0 opacity-[0.015]"
         style={{
-          backgroundImage: `
-            linear-gradient(to right, #000 0.5px, transparent 0.5px),
-            linear-gradient(to bottom, #000 0.5px, transparent 0.5px)
-          `,
-          backgroundSize: '20px 20px'
+          backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)',
+          backgroundSize: '40px 40px'
         }}
       ></div>
 
-      {/* Floating shapes */}
-      <FloatingShape delay={0} duration={20} size="w-96 h-96" left="10%" top="5%" color="bg-violet-400" />
-      <FloatingShape delay={2} duration={25} size="w-80 h-80" left="70%" top="15%" color="bg-blue-400" />
-      <FloatingShape delay={4} duration={22} size="w-72 h-72" left="40%" top="60%" color="bg-emerald-400" />
-      <FloatingShape delay={6} duration={28} size="w-64 h-64" left="80%" top="70%" color="bg-amber-400" />
+      {/* Floating decorative objects */}
+      <FloatingObject delay={0} duration={25} size="w-32 h-32" left="8%" top="12%" Icon={Code} color="text-violet-400" rotate={-15} />
+      <FloatingObject delay={3} duration={30} size="w-40 h-40" left="75%" top="8%" Icon={Rocket} color="text-blue-400" rotate={20} />
+      <FloatingObject delay={6} duration={28} size="w-36 h-36" left="15%" top="70%" Icon={Target} color="text-emerald-400" rotate={-25} />
+      <FloatingObject delay={9} duration={32} size="w-28 h-28" left="82%" top="65%" Icon={Zap} color="text-amber-400" rotate={15} />
+      <FloatingObject delay={12} duration={27} size="w-32 h-32" left="45%" top="85%" Icon={CheckCircle2} color="text-indigo-400" rotate={-10} />
 
       {/* Header */}
-      <div className="relative z-10 pt-12 pb-16 md:pt-16 md:pb-20">
+      <div className="relative z-10 pt-12 pb-8 md:pt-16 md:pb-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <button
+            onClick={() => router.push('/')}
+            className="mb-6 inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 font-semibold transition-colors duration-300"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Selection
+          </button>
           <div className="text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-semibold mb-6 border border-gray-200">
               <Target className="w-4 h-4" />
-              Development Roadmap
+              Full Build Roadmap
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4 tracking-tight">
               KENNA ERP
@@ -224,11 +233,7 @@ export default function KennaTimeline() {
             <div className="flex items-center gap-3">
               <button
                 onClick={togglePlayback}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
-                  isPlaying
-                    ? 'bg-gray-900 text-white hover:bg-gray-800'
-                    : 'bg-gray-900 text-white hover:bg-gray-800'
-                }`}
+                className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 bg-gray-900 text-white hover:bg-gray-800"
               >
                 {isPlaying ? (
                   <>
