@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Kenna ERP Timeline",
-  description: "Ke`nna ERP Development Timeline and Roadmap",
+  description: "Kenna ERP Development Timeline and Roadmap",
 };
 
 export default function RootLayout({ children }) {

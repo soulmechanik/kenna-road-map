@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { Target, ArrowRight, Rocket, Code, Zap, CheckCircle2 } from 'lucide-react';
+import { Target, ArrowRight, Rocket, Code, Zap, CheckCircle2, Play } from 'lucide-react';
 
 const FloatingObject = ({ delay, duration, size, left, top, Icon, color, rotate }) => (
   <div
@@ -23,12 +23,12 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
-      {/* Dot grid background */}
+      {/* Tiny dot grid background */}
       <div 
         className="absolute inset-0 opacity-10"
         style={{
           backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
+          backgroundSize: '20px 20px',
           backgroundPosition: '0 0'
         }}
       ></div>
@@ -93,6 +93,34 @@ export default function Home() {
               <div className="flex items-center gap-2 text-gray-900 font-semibold group-hover:gap-4 transition-all duration-300">
                 View Timeline
                 <ArrowRight className="w-5 h-5" />
+              </div>
+            </button>
+          </div>
+
+          {/* Watch Sample Demo Box */}
+          <div className="max-w-4xl mx-auto mt-12 md:mt-16">
+            <button
+              onClick={() => router.push('/demo')}
+              className="group w-full bg-white rounded-3xl p-8 md:p-10 border-2 border-gray-200 hover:border-gray-900 transition-all duration-300 hover:shadow-2xl text-left"
+            >
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div className="flex items-start gap-6">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-600 to-green-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                    <Play className="w-8 h-8 text-white" strokeWidth={2.5} />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+                      Watch Sample Demo
+                    </h2>
+                    <p className="text-gray-600 text-base md:text-lg leading-relaxed">
+                      See our ERP system in action with a comprehensive walkthrough of key features and functionalities.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-gray-900 font-semibold group-hover:gap-4 transition-all duration-300 md:ml-4">
+                  Watch Demo
+                  <ArrowRight className="w-5 h-5" />
+                </div>
               </div>
             </button>
           </div>
